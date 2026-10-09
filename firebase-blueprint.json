@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "Public and account profile for an authenticated user",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique Firebase Auth user ID" },
+        "email": { "type": "string", "description": "The user email address" },
+        "displayName": { "type": "string", "description": "The user display name" },
+        "photoURL": { "type": "string", "description": "The user avatar picture URL" },
+        "role": { "type": "string", "enum": ["customer", "admin"], "description": "User permission role" },
+        "createdAt": { "type": "string", "description": "Account registration timestamp" }
+      },
+      "required": ["uid", "email", "displayName", "role", "createdAt"]
+    },
+    "order": {
+      "title": "Order",
+      "description": "Customer purchase order with product items and delivered keys",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique order identifier" },
+        "userId": { "type": "string", "description": "UID of the purchasing user or guest" },
+        "customerName": { "type": "string", "description": "Name provided during checkout" },
+        "customerEmail": { "type": "string", "description": "Email receiving the digital delivery" },
+        "customerDiscord": { "type": "string", "description": "Optional Discord username for delivery" },
+        "paymentMethod": { "type": "string", "enum": ["PIX", "CREDIT_CARD"], "description": "Selected payment method" },
+        "total": { "type": "number", "description": "Total order amount in BRL" },
+        "status": { "type": "string", "enum": ["PENDING", "PAID"], "description": "Order fulfillment status" },
+        "createdAt": { "type": "string", "description": "Order creation timestamp" }
+      },
+      "required": ["id", "userId", "customerName", "customerEmail", "paymentMethod", "total", "status", "createdAt"]
+    },
+    "review": {
+      "title": "Review",
+      "description": "Verified customer review for store products",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique review ID" },
+        "userId": { "type": "string", "description": "Author UID" },
+        "authorName": { "type": "string", "description": "Author display name" },
+        "rating": { "type": "number", "description": "Rating score from 1 to 5" },
+        "comment": { "type": "string", "description": "Review comment body" },
+        "productName": { "type": "string", "description": "Reviewed product name" },
+        "verifiedPurchase": { "type": "boolean", "description": "Whether the purchase was verified" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["id", "userId", "authorName", "rating", "comment", "productName", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "User account documents stored per auth UID"
+    },
+    "/orders/{orderId}": {
+      "schema": "order",
+      "description": "Store purchase orders accessible by the purchasing user"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "review",
+      "description": "Customer reviews accessible publicly for reading"
+    }
+  }
+}

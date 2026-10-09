@@ -1,0 +1,6 @@
+{
+  "name": "Abravanel Shop",
+  "description": "Loja digital gamer de chaves Steam, assinaturas de streaming e jogos com entrega automática e pagamento via PIX e cartão.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
